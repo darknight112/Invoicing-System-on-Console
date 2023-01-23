@@ -4,7 +4,12 @@ import java.util.*;
 public class Shop {
 	private int id;
 	private String name;
-	List<Item> item = new ArrayList<Item>();
+	private int tel;
+	private int fax;
+	private String email;
+	private String website;
+
+	ArrayList<Item> item = new ArrayList<Item>();
 	ArrayList<Customer> customer = new ArrayList<Customer>();
 	Scanner sr = new Scanner(System.in);
 
@@ -68,7 +73,7 @@ public class Shop {
 		while (condition) {
 			Customer temCustomer =new Customer();
 			
-			temCustomer.setId(item.size()-1);
+			temCustomer.setId(item.size());
 			System.out.println("enter customer phone number ");
 			temCustomer.setPhone(sr.nextInt());
 			System.out.println("enter customer name ");
@@ -90,7 +95,7 @@ public class Shop {
 	public void printCustomers() {
 		System.out.println("List of Customers ");
 		for (Customer element : customer) {
-			System.out.println("Customer ID " + element.getId()+" Customer name " + element.getName()+ "Customer Phone " + element.getPhone());
+			System.out.println("Customer ID " + element.getId()+" Customer name " + element.getName()+ " Customer Phone " + element.getPhone());
 
 		}
 
@@ -111,4 +116,43 @@ public class Shop {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public int getTel() {
+		return tel;
+	}
+
+	public void setTel(int tel) {
+		this.tel = tel;
+	}
+
+	public int getFax() {
+		return fax;
+	}
+
+	public void setFax(int fax) {
+		this.fax = fax;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public ArrayList<Customer> getCustomer() {
+		return customer;
+	}
+
+
+	
 }

@@ -1,4 +1,5 @@
 package Invoicing;
+
 import java.util.*;
 
 public class Invoice {
@@ -8,13 +9,21 @@ public class Invoice {
 	private float totalAmount;
 	private float totalBalance;
 	Scanner sr = new Scanner(System.in);
+	Shop s = new Shop();
+	ArrayList<Item> purchase = new ArrayList<Item>();
 
-	public void createInvoice() {
-		System.out.println("enter invoice id in integer ");
-		this.id = sr.nextInt();
-		System.out.println("enter invoice date ");
-		this.date = sr.nextInt();
-		
+
+	public void total(int totalPaid) {
+		for (Item element : purchase) {
+			System.out.println("Enter the quantity of "+ element.getName() + " ");
+			int input=sr.nextInt();
+			float total = input*element.getPrice();
+			this.totalAmount=this.totalAmount+total;
+			this.totalBalance = this.totalAmount - this.totalPaid;
+			System.out.println("The unit price of "+ element.getName()  + " " +element.getPrice());
+			System.out.println("The total price of " + element.getName()  + " " +total);
+		}
+		System.out.println("The total amount is "+ this.totalAmount);
 
 	}
 
