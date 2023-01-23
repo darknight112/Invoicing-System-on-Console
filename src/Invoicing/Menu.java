@@ -7,10 +7,56 @@ public class Menu {
 	Scanner sr = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		System.out.println("==== System Main Menu ====");
+		
 		Menu menu = new Menu();
 		menu.createInvoice();
 	}
+	
+	public void mainMenu() {
+		boolean condition=true;
+		
+		while(condition) {
+			System.out.println("1-Shop Settings");
+			System.out.println("2- Manage Shop Items");
+			System.out.println("3- Create New Invoice");
+			System.out.println("4- Report: Statistics (No Of Items, No of Invoices, Total Sales)");
+			System.out.println("5- Print All Invoices");
+			System.out.println("6- Search Invoice (Search by Invoice No and Report All Invoice details with items)");
+			System.out.println("7- Program Statistics (Print each Main Menu Item with how many number selected)");
+			System.out.println("8- Exit");
+			int input=sr.nextInt();
+			switch(input) {
+				case 1:
+					System.out.println("1. Load Data (Items and invoices)");
+					System.out.println("2. Set Shop Name");
+					System.out.println("3. Set Invoice Header (Tel / Fax / Email / Website)");
+					System.out.println("4. Go Back");
+					switch(sr.nextInt()) {
+						case 1:
+							printInvoice();
+							break;
+						case 2:
+							
+							}
+					}
+			}
 
+			
+		}
+	
+	
+	public void printInvoice() {
+		System.out.println("=== Inoivce List ===");
+		for(Invoice element:invoiceList) {
+			System.out.println("Invoice ID " + element.getId() + " Invoice Date " +element.getDate() );
+			System.out.println("Shop ID " + element.s.getId() + " Shop Name " +element.s.getName() );
+			//System.out.println("Customer ID " element.c.getId());
+
+			
+		}
+	}
+	
 	public void createInvoice() {
 		Invoice invoice = new Invoice();
 		invoice.setId(invoiceList.size());
@@ -28,8 +74,8 @@ public class Menu {
 			switch (input) {
 			case 1:
 				System.out.println("Enter the ID of customer who purchase ");
-				Customer c = new Customer();
-				c = invoice.s.customer.get(sr.nextInt());
+				//invoice.c = invoice.s.customer.get(sr.nextInt());
+				
 
 				break;
 			case 2:
@@ -69,6 +115,7 @@ public class Menu {
 					System.out.println("Enter the paid amount ");
 					input = sr.nextInt(); 
 					invoice.total(input);
+					invoiceList.add(invoice);
 
 				}
 			}
