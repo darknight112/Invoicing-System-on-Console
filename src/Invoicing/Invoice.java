@@ -9,21 +9,27 @@ public class Invoice {
 	private float totalAmount;
 	private float totalBalance;
 	Scanner sr = new Scanner(System.in);
-	Shop s = new Shop();
+	Customer c = new Customer();
 	ArrayList<Item> purchase = new ArrayList<Item>();
 
 
-	public void total(int totalPaid) {
+	public void total() {
 		for (Item element : purchase) {
-			System.out.println("Enter the quantity of "+ element.getName() + " ");
-			int input=sr.nextInt();
-			float total = input*element.getPrice();
+			
+			float total = element.getQuantity()*element.getPrice();
 			this.totalAmount=this.totalAmount+total;
-			this.totalBalance = this.totalAmount - this.totalPaid;
+			
 			System.out.println("The unit price of "+ element.getName()  + " " +element.getPrice());
 			System.out.println("The total price of " + element.getName()  + " " +total);
 		}
 		System.out.println("The total amount is "+ this.totalAmount);
+		System.out.println("Enter the the payment ");
+		float pay = sr.nextFloat();
+		this.totalPaid=pay;
+		this.totalBalance = this.totalAmount - this.totalPaid;
+		System.out.println("The total paid is "+ this.totalPaid);
+		System.out.println("The total balance is "+ this.totalBalance);
+
 
 	}
 

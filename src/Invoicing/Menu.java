@@ -3,9 +3,8 @@ package Invoicing;
 import java.util.*;
 
 public class Menu {
-	ArrayList<Invoice> invoiceList = new ArrayList<Invoice>();
 	Scanner sr = new Scanner(System.in);
-
+	Shop shop = new Shop();
 	public static void main(String[] args) {
 		System.out.println("==== System Main Menu ====");
 		
@@ -17,9 +16,9 @@ public class Menu {
 		boolean condition=true;
 		
 		while(condition) {
-			System.out.println("1-Shop Settings");
-			System.out.println("2- Manage Shop Items");
-			System.out.println("3- Create New Invoice");
+			System.out.println("1-Shop Settings"); //finish
+			System.out.println("2- Manage Shop Items"); //finish
+			System.out.println("3- Create New Invoice"); //finish
 			System.out.println("4- Report: Statistics (No Of Items, No of Invoices, Total Sales)");
 			System.out.println("5- Print All Invoices");
 			System.out.println("6- Search Invoice (Search by Invoice No and Report All Invoice details with items)");
@@ -28,17 +27,72 @@ public class Menu {
 			int input=sr.nextInt();
 			switch(input) {
 				case 1:
-					System.out.println("1. Load Data (Items and invoices)");
-					System.out.println("2. Set Shop Name");
-					System.out.println("3. Set Invoice Header (Tel / Fax / Email / Website)");
-					System.out.println("4. Go Back");
-					switch(sr.nextInt()) {
-						case 1:
-							printInvoice();
-							break;
-						case 2:
-							
-							}
+					boolean select1 = true;
+					while(select1) {
+					System.out.println("1. Load Data (Items and invoices)"); //finish
+					System.out.println("2. Set Shop Name"); //finish
+					System.out.println("3. Set Invoice Header (Tel / Fax / Email / Website)"); //finish
+					System.out.println("4. Go Back"); //finish
+					
+					switch (sr.nextInt()) {
+					case 1:
+						printInvoice();
+						break;
+					case 2:
+						System.out.println("Enter the new name of the shop ");
+						shop.setName(sr.next());
+						System.out.println("The shop name changed to " + shop.getName());
+						break;
+					case 3:
+						System.out.println("Enter the phone of the shop ");
+						shop.setTel(sr.nextInt());
+						System.out.println("Enter the fax of the shop ");
+						shop.setFax(sr.nextInt());
+						System.out.println("Enter the Email of the shop ");
+						shop.setEmail(sr.next());
+						System.out.println("Enter the website of the shop ");
+						shop.setWebsite(sr.next());
+						System.out.println("the changes has been saved  ");
+						break;
+					case 4:
+						select1 = false;
+						break;
+						}
+					}
+				case 2:
+					System.out.println(" 1 create new item");
+					System.out.println(" 2 change the price of item");
+					System.out.println(" 3 remove item");
+					System.out.println(" 4 Go back");
+					boolean select=true;
+					while(select) {
+						input=sr.nextInt();
+						switch(input) {
+							case 1:
+								shop.addItem();
+								break;
+							case 2:
+								shop.changePrice();
+								break;
+							case 3:
+								shop.deleteItem();
+								break;
+							case 4:
+								select=false;
+								break;
+						}
+					}
+					break;
+				case 3: //3- Create New Invoice
+					createInvoice();
+					break;
+				case 4: //4- Report: Statistics (No Of Items, No of Invoices, Total Sales)
+					System.out.println(" No Of Items " + shop.item.size());
+					System.out.println(" No of Invoices " + shop.invoiceList.size());
+					System.out.println(" Total Sales ");
+					System.out.println(" 4 Go back");
+					
+					break;
 					}
 			}
 
@@ -48,10 +102,12 @@ public class Menu {
 	
 	public void printInvoice() {
 		System.out.println("=== Inoivce List ===");
-		for(Invoice element:invoiceList) {
+		for(Invoice element:shop.invoiceList) {
 			System.out.println("Invoice ID " + element.getId() + " Invoice Date " +element.getDate() );
-			System.out.println("Shop ID " + element.s.getId() + " Shop Name " +element.s.getName() );
-			//System.out.println("Customer ID " element.c.getId());
+			System.out.println("Shop ID " + shop.getId() + " Shop Name " +shop.getName() );
+			System.out.println(" Customer Name "+ element.c.getName() + " Customer Phone "+ element.c.getPhone());
+			element.total();
+			
 
 			
 		}
@@ -59,11 +115,10 @@ public class Menu {
 	
 	public void createInvoice() {
 		Invoice invoice = new Invoice();
-		invoice.setId(invoiceList.size());
+		invoice.setId(shop.invoiceList.size());
 		System.out.println("Enter the date ");
 		invoice.setDate(sr.nextInt());
-		invoice.s.addCustomer();
-		invoice.s.addItem();
+		shop.addCustomer();
 		boolean condition = true;
 		while (condition) {
 			System.out.println("1 Enter the ID of customer who purchase/ 2 to show the customer / 3 add new customer / 4 exit ");
@@ -74,32 +129,34 @@ public class Menu {
 			switch (input) {
 			case 1:
 				System.out.println("Enter the ID of customer who purchase ");
-				//invoice.c = invoice.s.customer.get(sr.nextInt());
+				invoice.c = shop.customer.get(sr.nextInt());
 				
 
 				break;
 			case 2:
-				invoice.s.printCustomers();
+				shop.printCustomers();
 				break;
 			case 3:
-				invoice.s.addCustomer();
+				shop.addCustomer();
+				invoice.c=shop.customer.get(shop.customer.size());
 				break;
 			case 4:
 				condition = false;
 				System.out.println("exit");
 				break;
 			}
-
+			boolean condition2=true;
+			while(condition2) {
 				System.out.println("1 Enter the ID of item you want to purchase ");
 				System.out.println("press 2 to show the items ");
 				System.out.println("press 3 to exit ");
-
+				
 				if (input == 2) {
-					invoice.s.printItems();
+					shop.printItems();
 				}
 
 				else if (input == 3) {
-					condition = false;
+					condition2 = false;
 					System.out.println("exit");
 				} else {
 					System.out.println("Enter the ID of item you want to purchase / 99 to exit ");
@@ -110,15 +167,15 @@ public class Menu {
 					}
 					Item i = new Item();
 					System.out.println("Enter the ID of item ");
-					i = invoice.s.item.get(sr.nextInt());
+					i = shop.item.get(sr.nextInt());
+					System.out.println("Enter the quantity of "+ i.getName()+" you want to purchase");
+					i.setQuantity(sr.nextInt());
 					invoice.purchase.add(i);
-					System.out.println("Enter the paid amount ");
-					input = sr.nextInt(); 
-					invoice.total(input);
-					invoiceList.add(invoice);
+					invoice.total();
+					shop.invoiceList.add(invoice);
 
 				}
 			}
-
+		}
 	}
 }

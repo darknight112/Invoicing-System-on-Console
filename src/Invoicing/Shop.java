@@ -8,7 +8,8 @@ public class Shop {
 	private int fax;
 	private String email;
 	private String website;
-
+	private float totalSales;
+	ArrayList<Invoice> invoiceList = new ArrayList<Invoice>();
 	ArrayList<Item> item = new ArrayList<Item>();
 	ArrayList<Customer> customer = new ArrayList<Customer>();
 	Scanner sr = new Scanner(System.in);
@@ -55,7 +56,7 @@ public class Shop {
 		input=sr.nextInt();
 		tem.setPrice(input);
 		System.out.println("item price changed ");
-
+		item.set(input, tem);
 	}
 	
 	public void printItems() {
@@ -101,6 +102,8 @@ public class Shop {
 
 	}
 
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -151,6 +154,14 @@ public class Shop {
 
 	public ArrayList<Customer> getCustomer() {
 		return customer;
+	}
+
+	public float getTotalSales() {
+		return totalSales;
+	}
+
+	public void setTotalSales(float totalSales) {
+		this.totalSales = totalSales;
 	}
 
 

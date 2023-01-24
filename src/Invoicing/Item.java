@@ -4,6 +4,7 @@ public class Item {
 	private int id;
 	private float price;
 	private String name;
+	private int quantity;
 	Scanner sr = new Scanner(System.in);
 	
 //	public void addItem() {
@@ -60,6 +61,14 @@ public class Item {
 
 	public void setSr(Scanner sr) {
 		this.sr = sr;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	
