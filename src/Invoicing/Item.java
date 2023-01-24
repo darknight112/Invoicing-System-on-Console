@@ -1,11 +1,11 @@
 package Invoicing;
-import java.util.*;
-public class Item {
+import java.io.*;
+
+public class Item  {
 	private int id;
 	private float price;
 	private String name;
 	private int quantity;
-	Scanner sr = new Scanner(System.in);
 	
 //	public void addItem() {
 //		System.out.println("enter item id in integer ");
@@ -55,13 +55,7 @@ public class Item {
 		this.name = name;
 	}
 
-	public Scanner getSr() {
-		return sr;
-	}
 
-	public void setSr(Scanner sr) {
-		this.sr = sr;
-	}
 
 	public int getQuantity() {
 		return quantity;

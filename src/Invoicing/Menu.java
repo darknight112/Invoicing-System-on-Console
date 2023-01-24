@@ -1,17 +1,20 @@
 package Invoicing;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Menu {
-	Scanner sr = new Scanner(System.in);
+	transient Scanner sr = new Scanner(System.in);
 	Shop shop = new Shop();
 	float totalSales = 0;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println("==== System Main Menu ====");
 
 		Menu menu = new Menu();
-		menu.mainMenu();
+		menu.showMenu();
 	
 	
 	
@@ -24,7 +27,7 @@ public class Menu {
 	
 	}
 
-	public void mainMenu() {
+	public void showMenu() {
 		boolean condition = true;
 
 		while (condition) {
@@ -48,12 +51,37 @@ public class Menu {
 
 					switch (sr.nextInt()) {
 					case 1:
-						printInvoice();
+						System.out.println("=== Items List ===");
+						try {
+						    BufferedReader read = new BufferedReader(new FileReader("item.txt")); //Creation of BufferedReader object
+							Scanner scan = new Scanner(read);
+							String s;
+							while((s=read.readLine())!=null)   //Reading Content from the file and insert it to the array
+						      {
+						           //if (s.))   //Search for the given word
+						             // {
+						                   //count++;    //If Present increase the count by one
+						              // }
+						           
+						          }
+						}
+				        catch (IOException except)
+				        {
+				            except.printStackTrace();
+				        }
+						
+						//printInvoice();
+						for(Item item:shop.item) {
+							System.out.println("Item ID "+item.getId()); 
+							System.out.println(" Item Name "+item.getName());
+							System.out.println(" Item Price "+item.getPrice()); 
+						}
 						break;
 					case 2:
 						System.out.println("Enter the new name of the shop ");
 						shop.setName(sr.next());
 						System.out.println("The shop name changed to " + shop.getName());
+						
 						break;
 					case 3:
 						System.out.println("Enter the phone of the shop ");
@@ -70,24 +98,31 @@ public class Menu {
 						select1 = false;
 						break;
 					}
+					
 				}
+				break;
+				
 			case 2:
+				boolean select = true;
+
 				System.out.println(" 1 create new item");
 				System.out.println(" 2 change the price of item");
 				System.out.println(" 3 remove item");
 				System.out.println(" 4 Go back");
-				boolean select = true;
 				while (select) {
 					input = sr.nextInt();
 					switch (input) {
 					case 1:
 						shop.addItem();
+
 						break;
 					case 2:
 						shop.changePrice();
+
 						break;
 					case 3:
 						shop.deleteItem();
+
 						break;
 					case 4:
 						select = false;
@@ -95,6 +130,7 @@ public class Menu {
 					}
 				}
 				break;
+				
 			case 3: // 3- Create New Invoice
 				createInvoice();
 				break;
