@@ -62,7 +62,7 @@ public class Menu {
 								count++;
 								System.out.println(scaner);
 							}
-							for (int i = 0; i > arr.size(); i++) {
+							for (int i = 0; i < arr.size(); i++) {
 								Item t = new Item();
 								Integer tempId = Integer.parseInt(arr.get(i));
 								t.setId(tempId);
@@ -70,6 +70,7 @@ public class Menu {
 								t.setPrice(price);
 								t.setName(arr.get(i + 2));
 								shop.item.add(t);
+								System.out.println(i);
 
 							}
 
@@ -211,11 +212,9 @@ public class Menu {
 			except.printStackTrace();
 		}
 	}
-	
-	
+
 	public void saveInvoice() {
 		try {
-
 			// Initializing BufferedWriter
 			BufferedWriter itemWriter = new BufferedWriter(new FileWriter("invoice.txt"));
 
@@ -229,7 +228,7 @@ public class Menu {
 					itemWriter.write(item.getName() + "\n");
 					itemWriter.write(item.getPrice() + "\n");
 					itemWriter.write(item.getQuantity() + "\n");
-					itemWriter.write((item.getQuantity() *item.getPrice() + "\n"));
+					itemWriter.write((item.getQuantity() * item.getPrice() + "\n"));
 
 				}
 				itemWriter.write(x.getTotalAmount() + "\n");
@@ -254,11 +253,10 @@ public class Menu {
 		shop.addCustomer();
 		boolean condition = true;
 		while (condition) {
-			System.out.println(
-					"1 Enter the ID of customer who purchase/ 2 to show the customer / 3 add new customer / 4 exit ");
+			System.out.println("1 Enter the ID of customer who purchase");
 			System.out.println("2 to show the customer");
 			System.out.println("3 add new customer");
-			System.out.println(" 4 exit ");
+			System.out.println("4 exit ");
 			int input = sr.nextInt();
 			switch (input) {
 			case 1:
@@ -283,34 +281,41 @@ public class Menu {
 				System.out.println("1 Enter the ID of item you want to purchase ");
 				System.out.println("press 2 to show the items ");
 				System.out.println("press 3 to exit ");
+				input = sr.nextInt();
+				switch (input) {
+				case 1:
+					boolean newItem = true;
+					while (newItem) {
+						System.out.println("Enter the ID of item you want to purchase / 99 to exit ");
+						input = sr.nextInt();
+						if (input == 99) {
+							condition = false;
+							System.out.println("exit");
+						}
+						Item i = new Item();
+						System.out.println("Enter the ID of item ");
+						i = shop.item.get(sr.nextInt());
+						System.out.println("Enter the quantity of " + i.getName() + " you want to purchase");
+						i.setQuantity(sr.nextInt());
+						invoice.purchase.add(i);
+						invoice.total();
+						totalSales = totalSales + invoice.getTotalAmount();
+						shop.setTotalSales(totalSales);
+						shop.invoiceList.add(invoice);
+						saveInvoice();
+					}
+					break;
 
-				if (input == 2) {
+				case 2:
 					shop.printItems();
-				}
+					break;
 
-				else if (input == 3) {
+				case 3:
 					condition2 = false;
 					System.out.println("exit");
-				} else {
-					System.out.println("Enter the ID of item you want to purchase / 99 to exit ");
-					input = sr.nextInt();
-					if (input == 99) {
-						condition = false;
-						System.out.println("exit");
-					}
-					Item i = new Item();
-					System.out.println("Enter the ID of item ");
-					i = shop.item.get(sr.nextInt());
-					System.out.println("Enter the quantity of " + i.getName() + " you want to purchase");
-					i.setQuantity(sr.nextInt());
-					invoice.purchase.add(i);
-					invoice.total();
-					totalSales = totalSales + invoice.getTotalAmount();
-					shop.setTotalSales(totalSales);
-					shop.invoiceList.add(invoice);
-					saveInvoice();
-
+					break;
 				}
+
 			}
 		}
 	}
