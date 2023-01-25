@@ -1,7 +1,10 @@
 package Invoicing;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -15,16 +18,7 @@ public class Menu {
 
 		Menu menu = new Menu();
 		menu.showMenu();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	}
 
 	public void showMenu() {
@@ -36,7 +30,7 @@ public class Menu {
 			System.out.println("3- Create New Invoice"); // finish
 			System.out.println("4- Report: Statistics (No Of Items, No of Invoices, Total Sales)"); // finish
 			System.out.println("5- Print All Invoices"); // finish
-			System.out.println("6- Search Invoice (Search by Invoice No and Report All Invoice details with items)"); //finish
+			System.out.println("6- Search Invoice (Search by Invoice No and Report All Invoice details with items)"); // finish
 			System.out.println("7- Program Statistics (Print each Main Menu Item with how many number selected)");
 			System.out.println("8- Exit");
 			int input = sr.nextInt();
@@ -53,35 +47,46 @@ public class Menu {
 					case 1:
 						System.out.println("=== Items List ===");
 						try {
-						    BufferedReader read = new BufferedReader(new FileReader("item.txt")); //Creation of BufferedReader object
+							BufferedReader read = new BufferedReader(new FileReader("item.txt")); // Creation of
+
+							// object
 							Scanner scan = new Scanner(read);
-							String s;
-							while((s=read.readLine())!=null)   //Reading Content from the file and insert it to the array
-						      {
-						           //if (s.))   //Search for the given word
-						             // {
-						                   //count++;    //If Present increase the count by one
-						              // }
-						           
-						          }
+							String scaner;
+							ArrayList<String> arr = new ArrayList<String>();
+
+							int count = 0;
+							while ((scaner = read.readLine()) != null) // Reading Content from the file and insert it to
+																		// the array
+							{
+								arr.add(scaner);
+								count++;
+								System.out.println(scaner);
+							}
+							for (int i = 0; i > arr.size(); i++) {
+								Item t = new Item();
+								Integer tempId = Integer.parseInt(arr.get(i));
+								t.setId(tempId);
+								Float price = Float.parseFloat(arr.get(i + 1));
+								t.setPrice(price);
+								t.setName(arr.get(i + 2));
+								shop.item.add(t);
+
+							}
+
+							scan.close();
+
+						} catch (IOException except) {
+							except.printStackTrace();
 						}
-				        catch (IOException except)
-				        {
-				            except.printStackTrace();
-				        }
-						
-						//printInvoice();
-						for(Item item:shop.item) {
-							System.out.println("Item ID "+item.getId()); 
-							System.out.println(" Item Name "+item.getName());
-							System.out.println(" Item Price "+item.getPrice()); 
-						}
+
+						// printInvoice();
+
 						break;
 					case 2:
 						System.out.println("Enter the new name of the shop ");
 						shop.setName(sr.next());
 						System.out.println("The shop name changed to " + shop.getName());
-						
+
 						break;
 					case 3:
 						System.out.println("Enter the phone of the shop ");
@@ -92,16 +97,18 @@ public class Menu {
 						shop.setEmail(sr.next());
 						System.out.println("Enter the website of the shop ");
 						shop.setWebsite(sr.next());
+						header();
 						System.out.println("the changes has been saved  ");
+
 						break;
 					case 4:
 						select1 = false;
 						break;
 					}
-					
+
 				}
 				break;
-				
+
 			case 2:
 				boolean select = true;
 
@@ -130,7 +137,7 @@ public class Menu {
 					}
 				}
 				break;
-				
+
 			case 3: // 3- Create New Invoice
 				createInvoice();
 				break;
@@ -155,22 +162,23 @@ public class Menu {
 				System.out.println("Shop ID " + shop.getId() + " Shop Name " + shop.getName());
 				System.out.println(" Customer Name " + temp.c.getName() + " Customer Phone " + temp.c.getPhone());
 				for (Item item : temp.purchase) {
-					System.out.println(" Item Name " + item.getName() + " Item Unit Price " + item.getPrice() + " Item Quantity "
-							+ item.getQuantity()+" Item total price "+ (item.getPrice()*item.getQuantity()));
+					System.out.println(" Item Name " + item.getName() + " Item Unit Price " + item.getPrice()
+							+ " Item Quantity " + item.getQuantity() + " Item total price "
+							+ (item.getPrice() * item.getQuantity()));
 				}
-				System.out.println("The total amount is "+ temp.getTotalAmount());
-				System.out.println("The total paid is "+ temp.getTotalPaid());
-				System.out.println("The total balance is "+ temp.getTotalBalance());
+				System.out.println("The total amount is " + temp.getTotalAmount());
+				System.out.println("The total paid is " + temp.getTotalPaid());
+				System.out.println("The total balance is " + temp.getTotalBalance());
 
 				break;
-				
-			case 7: //7- Program Statistics (Print each Main Menu Item with how many number selected)
-				
-				
+
+			case 7: // 7- Program Statistics (Print each Main Menu Item with how many number
+					// selected)
+
 				break;
-				
-			case 8: //exit
-				condition=false;
+
+			case 8: // exit
+				condition = false;
 				System.out.println("exit");
 				break;
 			}
@@ -187,6 +195,55 @@ public class Menu {
 			element.total();
 
 		}
+	}
+
+	public void header() {
+		try {
+			// Initializing BufferedWriter
+			BufferedWriter itemWriter = new BufferedWriter(new FileWriter("header.txt"));
+			itemWriter.write(shop.getName() + "\n");
+			itemWriter.write(shop.getTel() + "\n");
+			itemWriter.write(shop.getFax() + "\n");
+			itemWriter.write(shop.getEmail() + "\n");
+			itemWriter.write(shop.getWebsite() + "\n");
+			itemWriter.close();
+		} catch (IOException except) {
+			except.printStackTrace();
+		}
+	}
+	
+	
+	public void saveInvoice() {
+		try {
+
+			// Initializing BufferedWriter
+			BufferedWriter itemWriter = new BufferedWriter(new FileWriter("invoice.txt"));
+
+			for (Invoice x : shop.invoiceList) {
+				itemWriter.write(x.getId() + "\n");
+				itemWriter.write(x.getDate() + "\n");
+				header();
+				itemWriter.write(x.c.getName() + "\n");
+				itemWriter.write(x.c.getPhone() + "\n");
+				for (Item item : x.purchase) {
+					itemWriter.write(item.getName() + "\n");
+					itemWriter.write(item.getPrice() + "\n");
+					itemWriter.write(item.getQuantity() + "\n");
+					itemWriter.write((item.getQuantity() *item.getPrice() + "\n"));
+
+				}
+				itemWriter.write(x.getTotalAmount() + "\n");
+				itemWriter.write(x.getTotalPaid() + "\n");
+				itemWriter.write(x.getTotalBalance() + "\n");
+
+			}
+
+			itemWriter.close();
+			System.out.println("The invoice now saved ");
+		} catch (IOException except) {
+			except.printStackTrace();
+		}
+
 	}
 
 	public void createInvoice() {
@@ -251,6 +308,7 @@ public class Menu {
 					totalSales = totalSales + invoice.getTotalAmount();
 					shop.setTotalSales(totalSales);
 					shop.invoiceList.add(invoice);
+					saveInvoice();
 
 				}
 			}

@@ -16,6 +16,30 @@ public class Shop {
 	ArrayList<Customer> customer = new ArrayList<Customer>();
 	transient Scanner sr = new Scanner(System.in);
 
+	
+	
+	public void saveItem() {
+		try {
+
+			// Initializing BufferedWriter
+			BufferedWriter itemWriter = new BufferedWriter(new FileWriter("item.txt"));
+
+			System.out.println("Buffered Writer start writing ");
+
+			for (Item x : item) {
+				itemWriter.write(x.getId()+"\n" );
+				itemWriter.write(x.getPrice()+ "\n");
+				itemWriter.write(x.getName()+"\n");
+
+			}
+
+			itemWriter.close();
+			System.out.println("The new items are saved ");
+		} catch (IOException except) {
+			except.printStackTrace();
+		}
+		
+	}
 	public void addItem() {
 		boolean condition = true;
 		while (condition) {
@@ -31,26 +55,7 @@ public class Shop {
 			System.out.println("Item created ... ");
 			System.out.println("enter 1 to continue/ 2 to exit ... ");
 			int input = sr.nextInt();
-			try {
-
-				// Initializing BufferedWriter
-				BufferedWriter itemWriter = new BufferedWriter(new FileWriter("item.txt"));
-
-				System.out.println("Buffered Writer start writing ");
-
-				for (Item x : item) {
-					itemWriter.write("\n" + " Item ID "+ x.getId());
-					itemWriter.write("\n" +" Item Name "+ x.getName());
-					itemWriter.write("\n" +" Item Price "+ x.getPrice());
-
-				}
-
-				itemWriter.close();
-				System.out.println("The new items are saved ");
-			} catch (IOException except) {
-				except.printStackTrace();
-			}
-
+			saveItem();
 			if (input == 2) {
 				condition = false;
 				System.out.println("exit ... ");
@@ -66,6 +71,7 @@ public class Shop {
 		item.get(input);
 		item.remove(input);
 		System.out.println("item deleted ");
+		saveItem();
 
 	}
 
@@ -79,6 +85,7 @@ public class Shop {
 		tem.setPrice(input);
 		System.out.println("item price changed ");
 		item.set(input, tem);
+		saveItem();
 	}
 
 	public void printItems() {
